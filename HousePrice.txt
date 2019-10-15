@@ -1,0 +1,85 @@
+## 집값 가격 예측
+https://www.kaggle.com/pmarcelino/comprehensive-data-exploration-with-python
+친절하게 데이터 분석 절차에 대한 설명이 잘 되어있음.
+
+Understand the problem. We'll look at each variable and do a philosophical analysis about their meaning and importance for this problem.
+Univariable study. We'll just focus on the dependent variable ('SalePrice') and try to know a little bit more about it.
+Multivariate study. We'll try to understand how the dependent variable and independent variables relate.
+Basic cleaning. We'll clean the dataset and handle the missing data, outliers and categorical variables.
+Test assumptions. We'll check if our data meets the assumptions required by most multivariate techniques.
+
+엑셀로 작업을 하기
+Variable - Variable name.
+Type - Identification of the variables' type. There are two possible values for this field: 'numerical' or 'categorical'. By 'numerical' we mean variables for which the values are numbers, and by 'categorical' we mean variables for which the values are categories.
+Segment - Identification of the variables' segment. We can define three possible segments: building, space or location. When we say 'building', we mean a variable that relates to the physical characteristics of the building (e.g. 'OverallQual'). When we say 'space', we mean a variable that reports space properties of the house (e.g. 'TotalBsmtSF'). Finally, when we say a 'location', we mean a variable that gives information about the place where the house is located (e.g. 'Neighborhood').
+Expectation - Our expectation about the variable influence in 'SalePrice'. We can use a categorical scale with 'High', 'Medium' and 'Low' as possible values.
+Conclusion - Our conclusions about the importance of the variable, after we give a quick look at the data. We can keep with the same categorical scale as in 'Expectation'.
+Comments - Any general comments that occured to us.
+
+Expectation이 매우 중요함. 감을 키워주는데 도움이 된다. sixth sense
+대신 이걸 채우려면 생각을 해야함. 
+Do we think about this variable when we are buying a house? (e.g. When we think about the house of our dreams, do we care about its 'Masonry veneer type'?).
+If so, how important would this variable be? (e.g. What is the impact of having 'Excellent' material on the exterior instead of 'Poor'? And of having 'Excellent' instead of 'Good'?).
+Is this information already described in any other variable? (e.g. If 'LandContour' gives the flatness of the property, do we really need to know the 'LandSlope'?).
+
+이걸하고 나면 어떤 변수를 중요하게 봐야할지 알 수 있게 된다. 그러면 그걸 가지고 Y값과 산점도나 라인플롯 등 EDA를 진행
+=> 스스로 생각을 하면서 데이터 분석을 진행하는 것. 기계처럼 그냥 하는 게 아니다. 분석이란 생각을 하고 분석가의 지식을 총 동원해서
+판단하고 생각하면서 데이터 분석을 통한 스토리를 만들어가는 것. 
+
+이 과정을 거치고나서 이제 어떤 데이터가 중요한지 결정할 수 있게 되었음.
+미리 어떤 데이터가 중요할지를 보고 이제 그걸 기반으로 여러 플롯도 보고 분포도 살펴보고 그렇게 나아가는 것
+
+Y값 SalePrice 에 대한 분포 살펴보기. sns.distplot(data)
+정규분포하는지 살펴보기
+왜도(Skew)와 첨도(kurt) 살펴보기. df['SalePrice'].skew() / df['SalePrice'].kurt()
+print( "Skewness: %f" % df['SalePrice'].skew() )  -> 이렇게 써주면 Skewness : 1.882312 이렇게 나오고 그럼
+
+=======================================
+
+이제 어떤 변수들과 관련이 높은지 파악. scatter plot
+data.plot.scatter(x=x1, y=y1, ylim=(0,800000)) 형식으로 작성하면 알 수 있음. 여기서 이상치도 볼 수 있음.
+대략적인 상관관계 파악. 어느 정도 관계가 있구나를 살펴보고 여기서도 중요 변수들을 생각해볼 수 있음.
+변수가 많으면 당연히 모든 걸 다 할 수는 없음. 내가 중요하다고 생각했던 것들을 일단 주목해서 본다. (전부 다 해도 되고)
+
+그 다음에는 이제 Heatmap 으로 전반적인 관계를 모두 살펴보기.
++ 변수가 너무 많으니까 일단 색깔로 하고 나중에 관심 있는 부분은 확대해서 숫자 띄워서 살펴보기
+
+그리고 전부 다 하면 너무 많으니까 주요 변수들로 sns.pairplot() 을 그려보는 것도 좋은 단계
+ 
+=======================================
+대략적인 분포나 관계를 파악하고나서 결측치(Missing Data)/이상치(Out Liars)를 처리한다.
+결측치 개수 세고, 전체 비율 알려주고
+결측치의 비율이 15% 이상이라면 열 전체를 통째로 날려버리는 것을 고려. -> 채우는 것도 안좋음. 너무 많이 채워야함
+결측치가 5% 미만이라면 해당 행만 삭제하는 것도 괜찮음. -> 삭제하는게 편하긴 하지만 좋은 방법은 아니지
+
+* 결측치 처리 방법에 대해서는 자세히 나오지 않아서 다른 사례에서 더 공부를 해야할 것으로 보임.
+
+=======================================
+이상치 처리
+이상치 탐지 - 일변량 방식
+Std.scaler 사용해서 row와 high 범위를 보여주고 or IQR(1분위 3분위 초과) 박스플롯 이용 등의 방식
+
+이상치 탐지 - 이변량 방식 (bivariate)    * 다변량은 multivariate 
+산점도 그려서 그림에서 이상치 파악하기.
+* 이상치 처리 역시 처리 방법이 디테일하게 나오지 않아서 다른 것 참고 필요
+=======================================
+
+Normality -> 정규분포 하는지, 통계적 검정법(방법론) 중에서 정규분포가 가정인 것이 많기 때문에
+Homoscedasticity -> 등분산성
+Linearity -> 선형석
+Absence of correlated errors
+
+=====================================================================
+##
+https://www.kaggle.com/serigne/stacked-regressions-top-4-on-leaderboard
+
+초보자들은 캐글 컴피티션에 커널들을 꼭 많이 보고 배워라. + feature engineering
+그리고 그게 어느 정도 되면 모델에 대해서 공부를 하고 적용을 해봐라.
+
+여기서는 이상치를 산점도를 보고 파악. 저 멀리 떨어져있는 값을 이상치로 보고 삭제. 하지만 삭제가 항상 옳은 방법은
+아니다. 굉장히 나쁜 방법
+
+Target variable 타겟 변수
+SalePrice 예측을 하려는 것이니까 판매가격이 타겟 변수 -> 역시 타겟 변수의 분포를 먼저 한번 살펴본다. 왜도와 첨도
+정규분포하도록 transformation 시행
+
