@@ -1,7 +1,16 @@
 Python Library 정리
 
-## sklearn
 =======================================
+## 기본
+df.info()
+df.describe()
+df.apply(함수) : 함수를 적용해주는 함수? 사용자 정의 함수도 적용해줌. df.apply(def).unstake() 하면 옆으로 넓게 표 형식으로 만들어줌
+copy.copy(x) : x의 얕은 사본을 반환
+copy.deepcopy(x[, memo]) : x의 깊은 사본을 반환합니다. 
+
+=======================================
+## sklearn
+
 변수들의 척도(Scale)가 다를 경우 상호 비교를위해서 표준화 하는 방법
 # 0~1 범위 변환 (MinMaxScale)
 sklearn.preprocessing.MinMaxScaler()    method (from sklearn.preprocessing import MinMaxScaler)
@@ -17,6 +26,52 @@ sklearn.preprocessing.scale(data, axis=0, with_mean=True, with_std=True, copy=Tr
 * sklearn.preprocessing.scale(np.log(df['column']+1)) +1 을 붙여주니까 값이 거의 비슷함.
 1을 붙여주는 이유가 0은 1로 만들어서 0으로 나오게 하고, 분수값은 1 이상이 되게 해서 음수를 없애주려고 하는 것.
 
+=======================================
+## Pandas 데이터프레임
 
+# Time Resampling
 
+String Data type -> Datetime 으로 변경.	pd.to_datetime(df['date_column'])
+불러올 때 Datetime 으로 불러오는 방법.	pd.read_csv('path/filename.csv' , index_col='date_column' , parse_dates=True)
+* parse_dates : 날짜인 것 같은 행을 날짜 타입으로 자동으로 변경해줌.
+원하는 col 로 인덱스 설정 df.set_index('column name', inplace=T/F)
 
+# pandas time resampling function
+df.resample(rule=' ')   ==> 적용하면 df.resample(rule='A').mean() : 매년 간의 모든 데이터 값의 평균을 제공해준다.
+* rule 에는 A = 1년에 한번씩 / Q = 매분기 / M = 매월 / W = 한 주 / B = 주말이 아닌 평일 / D = 일 / W-MON = 주(월요일)
+	MS = 각 달의 첫날 / Q-JAN = 각 분기의 첫달의 마지막날
+df.resample('M').mean().plot(kind='bar', figsize=(10,10)) 등 응용이 가능함.
+
+pd.date_range() : 모든 날짜/시간을 일일히 입력할 필요없이 시작일과 종료일 또는 시작일과 기간을 입력하면 범위 내의 인덱스 생성
+ex) pd.date_range("2018-4-1", "208-4-30", freq=' ' , periods= 숫자 )
+freq 인수값 여러 개가 있음.
+
+pd.cut() : 동일 길이로 나누어서 범주 만들기 / 갯수만 정해주면 자동으로 구간 나눠서 갯수 맞춰줌.
++ 그룹으로 나누면 나뉜 그룹이 나타남. 그러면 그걸 GroupBy 해서 개수, 평균, 표준편차 등 계산
+pd.qcut() : 동일 개수로 나누어서 범주 만들기 / 
+
+=======================================
+## matplotlib
+
+# matplotlib.pyplot
+
+y축을 지워버리고 싶으면 ylim() 으로 안됨. 이건 확대 기능?
+y축을 아애 지우고 싶으면 yticks( [ ] ) 으로 비워두면 됨. 맨 밑에 0만 나타내고 싶으면 plt.yticks([0,0]) 입력
+tick : 축에 표시되는 숫자
+set_xticks / set_yticks() 를 이용해서 x축과 y축에 표시되는 숫자를 바꿀 수 있다.
+set_xticks([-np.pi, -np.pi/2, 0, np.pi/2, np.pi])
+
+set_xticklabels / set_yticks() 를 사용해서 x축 y축에 표시되는 내용을 바꿀 수 있다.
+ax.set_xticks([-np.pi, -np.pi/2, 0, np.pi/2, np.pi])
+ax.set_xticklabels(['$-\pi$', '$-\pi/2$', '$0$', '$\pi/2$', '$\pi$'])
+
+=======================================
+## seaborn
+
+# seaborn as sns
+matplotlib 을 바탕으로 해서 시각화를 더 풍부하고 있어보이게 만들어줌.
+
+grid = sns.FaetGrid() 많이 사용함. '격자', '작은 다중 그래픽'
+ X와 Y가 범주형 일 때, row, column의 조합으로 그래프를 여러 개 만들고 싶을 때
+주로 사용함. 예를 들어, row가 성별이고 column이 클래스 일 때  가능한 조합으로 그래프를 그려줌.
+gird.map() 으로 그려줌.

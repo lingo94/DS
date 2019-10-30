@@ -1,0 +1,18 @@
+## 데이터 모델링
+predict
+-Logistic Regression
+-KNN or k-Nearest Neighbors
+-Support Vector Machines
+-Naive Bayes classifier
+-Decision Tree
+-Random Forrest
+-Perceptron
+-Artificial neural network
+-RVM or Relevance Vector Machine
+
+=======================================
+# 모델 쌓기(Model Stacking)
+다양한 알고리즘을 사용하여 기초모형을 개발하고 기초모형의 예측값을 입력값으로 메타모형을 만들어서,
+보다 예측력이 높은 모형을 만드는 것.
+여러 모형에서 예측값을 생성하고 예측값을 모아서 새로운 학습데이터를 생성. 마지막으로 새롭게 생성된
+학습데이터를 입력값으로 모델6을 개발
