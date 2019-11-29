@@ -1,0 +1,46 @@
+
+주제 - 이진분류(이항분류)(Binary Classification)
+이진분류 : (0, 1), (있다, 없다), (맞다, 틀리다), (스팸, 스팸이 아니다) 등 카테고리가 2개인 것 중에  어떤 것이 나오게 될 것인지 하나를 예측하는 문제 
+X1, X2, X3, ~~, Xn -> Y (0 or 1) 을 예측하는 문제. 두 그룹으로 분류하는 문제
+ex) (환경기준을 준수, 미준수), (설치에 적합, 부적합)
+
+사용한 데이터 예시
+이진분류를 시행할만한 환경 관련 데이터를 구하기 어려워서 웹상에서 쉽게 구할 수 있는 타이타닉 데이터를 이용해서 사례를 분석해보았음.
+탑승자의 신상정보를 활용하여 타이타닉 탑승자가 생존:1 / 죽음:0 을 예측하는 문제를 모델을 만들어서 예측해볼 것.
+데이터 분석 방법과 절차는 주제만 동일하다면 동일하기 때문에, 추후 환경 데이터가 확보된다면 데이터만 변경해서 즉시 분석에 활용가능
+
+사용 라이브러리 목록 및 설명
+시각화 도구 matplotlib, seaborn, plotly 사용 / 데이터 분석 도구 pandas, numpy / 머신러닝 도구 sklearn 사용
+Code 
+import numpy as np 		( numpy 라이브러리를 불러옴. import 라이브러리 이름 as 약어 )
+import pandas as pd		(파이썬에서 dataFrame 을 다루게 해주는 라이브러리)
+import matplotlib.pyplot as plt (matplotlib 의 특정한 pyplot 이라는 것을 불러들이고자 할때 . 사용)
+import seaborn as sns	(plot 을 그리기 위한 함수인 동시에 plot 디자인 수정 가능)
+import missingno as msno 	(결측치를 시각화하여 표시하기 위해 사용하는 라이브러리)
+import warnings		(파이썬 코드 실행중 발생할 수 있는 오류 메시지를 어떻게 처리할 것인지 결정하는 라이브러리->이 다음줄을 작성해주면 오류 메시지를 표시하지 않고 무시할 수 있음.)
+warnings.filterwarnings('ignore')
+%matplotlib inline		(matplotlib 으로 그린 그림을 화면에 표시해줌.)
+
+1. 데이터 확인 - 정제되어있지 않은 데이터가 얼마나 있는지, 어떻게 처리할지 방향을 잡기 위해 데이터가 어떻게 생겼는지 살펴보는 단계.  변수 파악
+머신러닝을 위해서는 데이터를 train 과 test 로 나눠서 진행해야 한다.
+Code
+df_train = pd.read_csv('파일이 있는 경로/파일명.확장자')
+df_test = pd.read_csv('./input/test.csv') <- 예시 (이외에도 파일 encoding 이나 index, header 등의 파라메타가 있음)
+df_train.head() 	:  데이터가 잘 불러와졌는지 확인하는 함수  
+df_train.describe()
+
+2. EDA(Exploratory Data Analysis) - 여러 feature 들을 개별적으로 분석, feature 들 간의 상관관계 확인. 여러 시각화 툴을 사용하고 insight 획득
+
+
+3. Feature Engineering - 모델 설정에 앞서 모델 성능을 높일 수 있게 변수들을 처리. 문자형 -> 숫자형, 순서형 -> 숫자형, 구간화 등
+
+
+---------------------------------------
+사용 라이브러리 목록 및 설명
+
+
+4. Modeling - sklearn 을 사용하여 수많은 알고리즘을 일관된 문법으로 사용할 수 있음. train/test data 를 가지고 prediction 
+
+
+5. 결론
+
